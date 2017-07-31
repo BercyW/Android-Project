@@ -250,9 +250,13 @@ public class SplashActivity extends Activity {
                 @Override
                 public void onSuccess(ResponseInfo<File> responseInfo) {
                     System.out.println("Download success");
-                    //to system download page
+                    //to system 安装 page
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    /*
+                    跳转到系统安装页面，activity: .PackageInstallerActivity
+                        filter 里边有mimeType 在packageInstaller里的manifest.xml文件里找
+                     */
                     intent.setDataAndType(Uri.fromFile(responseInfo.result),"application/vnd.android.package-archive");
                     //startActivity(intent);
                     startActivityForResult(intent,0);//if user cancel the install, will call back onActivityResult methord ;
