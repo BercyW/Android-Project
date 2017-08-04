@@ -19,10 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="security.bercy.com.activity.IndexActivity">
-
-
-        </activity>
+        <activity android:name="security.bercy.com.activity.IndexActivity"/>
+        <activity android:name="security.bercy.com.activity.SettingActivity"/>
 
     </application>
 

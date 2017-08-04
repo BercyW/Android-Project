@@ -1,9 +1,12 @@
 package security.bercy.com.activity;
 
 import android.app.Activity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -30,6 +33,23 @@ public class IndexActivity extends Activity {
         setContentView(R.layout.activity_index);
         gvHome = (GridView) findViewById(R.id.gv_home);
         gvHome.setAdapter(new HomeAdapter());
+        /*
+            set up listener
+         */
+        gvHome.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+
+                    case 8: //setting
+                        startActivity(new Intent(IndexActivity.this,SettingActivity.class));
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     class HomeAdapter extends BaseAdapter {
