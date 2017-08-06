@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -35,39 +36,40 @@ import security.bercy.com.redstartsecurity.R;
 import security.bercy.com.utils.StreamUtils;
 
 
-
 public class SplashActivity extends Activity {
 
     private static final int CODE_UPDATE_DIALOG = 0;
     private static final int CODE_URL_ERROR = 1;
     private static final int CODE_NET_ERROR = 2;
-    private static final  int CODE_JSON_ERROR = 3;
-    private static final  int ENTERHOME = 4;
+    private static final int CODE_JSON_ERROR = 3;
+    private static final int ENTERHOME = 4;
     private TextView tvVersion;
-    private TextView  tvProgress; //download progress
+    private TextView tvProgress; //download progress
     //m is server side
     private String mVersionName;
     private int mVersionCode;
     private String mDesc;
     private String mDownloadUrl;
 
+    SharedPreferences mPref;
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch(msg.what) {
+            switch (msg.what) {
                 case CODE_UPDATE_DIALOG:
-                         showUpdateDialog();
+                    showUpdateDialog();
                     break;
                 case CODE_URL_ERROR:
-                    Toast.makeText(SplashActivity.this,"URL ERROR", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SplashActivity.this, "URL ERROR", Toast.LENGTH_SHORT).show();
                     enterHome();
                     break;
                 case CODE_NET_ERROR:
-                    Toast.makeText(SplashActivity.this,"INTERNET ERROR", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SplashActivity.this, "INTERNET ERROR", Toast.LENGTH_SHORT).show();
                     enterHome();
                     break;
                 case CODE_JSON_ERROR:
-                    Toast.makeText(SplashActivity.this,"DATA ERROR", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SplashActivity.this, "DATA ERROR", Toast.LENGTH_SHORT).show();
                     enterHome();
                     break;
                 case ENTERHOME:
@@ -87,7 +89,19 @@ public class SplashActivity extends Activity {
         tvVersion = (TextView) findViewById(R.id.tv_version);
         tvVersion.setText("Version: " + getVersionName());
         tvProgress = (TextView) findViewById(R.id.tv_progress);
-        checkVersion();
+
+        mPref = getSharedPreferences("config", MODE_PRIVATE);
+
+        boolean autoUpdate = mPref.getBoolean("auto_update", true);
+        if (autoUpdate) {
+            checkVersion();
+        } else {
+            /*
+            延迟2秒再发消息
+             */
+            mHandler.sendEmptyMessageDelayed(ENTERHOME,2000);
+        }
+
     }
 
 
@@ -161,7 +175,7 @@ public class SplashActivity extends Activity {
                         if (mVersionCode > getVersionCode()) {
                             msg.what = CODE_UPDATE_DIALOG;
 
-                        }else {
+                        } else {
                             msg.what = ENTERHOME;
                         }
                     }
@@ -172,22 +186,22 @@ public class SplashActivity extends Activity {
                 } catch (IOException e) {
                     msg.what = CODE_NET_ERROR;
                     e.printStackTrace();
-                 } catch (JSONException e) {
+                } catch (JSONException e) {
                     msg.what = CODE_JSON_ERROR;
                     e.printStackTrace();
-                }finally {
+                } finally {
                     long endTime = System.currentTimeMillis();
-                    long timeUsed = endTime-startTime;
+                    long timeUsed = endTime - startTime;
                     //强制休眠保证闪屏展示2秒
-                    if(timeUsed<2000) {
+                    if (timeUsed < 2000) {
                         try {
-                            Thread.sleep(2000-timeUsed);
+                            Thread.sleep(2000 - timeUsed);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
                     mHandler.sendMessage(msg);
-                    if(conn!=null) {
+                    if (conn != null) {
                         conn.disconnect();
                     }
                 }
@@ -244,7 +258,7 @@ public class SplashActivity extends Activity {
                 public void onLoading(long total, long current, boolean isUploading) {
                     super.onLoading(total, current, isUploading);
                     System.out.println("current downloading:" + current + "/" + total);
-                    tvProgress.setText("Loading:"+current*100/total+"%");
+                    tvProgress.setText("Loading:" + current * 100 / total + "%");
                 }
 
                 @Override
@@ -257,9 +271,9 @@ public class SplashActivity extends Activity {
                     跳转到系统安装页面，activity: .PackageInstallerActivity
                         filter 里边有mimeType 在packageInstaller里的manifest.xml文件里找
                      */
-                    intent.setDataAndType(Uri.fromFile(responseInfo.result),"application/vnd.android.package-archive");
+                    intent.setDataAndType(Uri.fromFile(responseInfo.result), "application/vnd.android.package-archive");
                     //startActivity(intent);
-                    startActivityForResult(intent,0);//if user cancel the install, will call back onActivityResult methord ;
+                    startActivityForResult(intent, 0);//if user cancel the install, will call back onActivityResult methord ;
                 }
 
                 @Override
@@ -267,10 +281,11 @@ public class SplashActivity extends Activity {
                     Toast.makeText(SplashActivity.this, "Download Fail", Toast.LENGTH_SHORT).show();
                 }
             });
-        }else {
+        } else {
             Toast.makeText(SplashActivity.this, "No SD Card Found", Toast.LENGTH_SHORT).show();
         }
     }
+
     //cancel the download will enterhome
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -278,9 +293,10 @@ public class SplashActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
 
     }
+
     //get in index
     public void enterHome() {
-        Intent intent = new Intent(this,IndexActivity.class);
+        Intent intent = new Intent(this, IndexActivity.class);
         startActivity(intent);
         finish();
     }

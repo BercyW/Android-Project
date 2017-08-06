@@ -10,45 +10,10 @@
         android:text="Setting"
         android:textSize="16dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:padding="10dp"
-        >
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Auto Update"
-            android:layout_marginTop="3dp"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/tv_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enable"
-            android:textColor="#aa3e3e3c"
-            android:textSize="20sp"
-            android:layout_marginTop="3dp"
-            android:layout_below="@+id/tv_title"
-            />
-        <CheckBox
-            android:id="@+id/cb_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            />
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="0.2dp"
-            android:background="#aa3e3e3c"
-            android:layout_alignParentBottom="true"
-            />
-
-    </RelativeLayout>
+   <security.bercy.com.view.SettingItemView
+        android:id="@+id/siv_update"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       />
 
 </LinearLayout>
