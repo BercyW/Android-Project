@@ -23,13 +23,15 @@ public class SettingActivity extends Activity {
 
         mPref = getSharedPreferences("config", MODE_PRIVATE);
         sivUpdate = (SettingItemView) findViewById(R.id.siv_update);
-        sivUpdate.setTitle("Auto Update");
+
+        //sivUpdate.setTitle("Auto Update");
+
         boolean autoUpdate = mPref.getBoolean("auto_update",true);
         if(autoUpdate) {
-            sivUpdate.setDesc("Enable");
+            //sivUpdate.setDesc("Enable");
             sivUpdate.setChecked(true);
         }else {
-            sivUpdate.setDesc("Disable");
+            //sivUpdate.setDesc("Disable");
             sivUpdate.setChecked(false);
         }
 
@@ -39,11 +41,11 @@ public class SettingActivity extends Activity {
             public void onClick(View v) {
                 if(sivUpdate.isChecked()) {
                     sivUpdate.setChecked(false);
-                    sivUpdate.setDesc("Disable");
+                    //sivUpdate.setDesc("Disable");
                     mPref.edit().putBoolean("auto_update",false).commit();
                 }else {
                     sivUpdate.setChecked(true);
-                    sivUpdate.setDesc("Enable");
+                   // sivUpdate.setDesc("Enable");
                     mPref.edit().putBoolean("auto_update",true).commit();
                 }
             }
