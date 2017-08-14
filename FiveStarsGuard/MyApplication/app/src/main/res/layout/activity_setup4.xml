@@ -64,10 +64,6 @@
             style="@style/NextStyle"
             android:text="Finish" />
 
-        <Button style="@style/BackStyle"
-
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+        <Button style="@style/BackStyle" />
     </RelativeLayout>
 </LinearLayout>
