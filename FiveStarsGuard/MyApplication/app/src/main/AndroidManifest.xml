@@ -21,6 +21,11 @@
         </activity>
         <activity android:name="security.bercy.com.activity.IndexActivity"/>
         <activity android:name="security.bercy.com.activity.SettingActivity"/>
+        <activity android:name="security.bercy.com.activity.LostFindActivity"/>
+        <activity android:name="security.bercy.com.activity.SetUp1Activity"/>
+        <activity android:name="security.bercy.com.activity.SetUp2Activity"/>
+        <activity android:name="security.bercy.com.activity.SetUp3Activity"/>
+        <activity android:name="security.bercy.com.activity.SetUp4Activity"/>
 
     </application>
 

@@ -34,10 +34,13 @@ public class IndexActivity extends Activity {
             R.drawable.home_sysoptimize, R.drawable.home_tools,
             R.drawable.home_settings};
     private SharedPreferences mPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
+
+        mPref = getSharedPreferences("config", MODE_PRIVATE);
         gvHome = (GridView) findViewById(R.id.gv_home);
         gvHome.setAdapter(new HomeAdapter());
         /*
@@ -52,7 +55,7 @@ public class IndexActivity extends Activity {
                         showPasswordDialog();
                         break;
                     case 8: //setting
-                        startActivity(new Intent(IndexActivity.this,SettingActivity.class));
+                        startActivity(new Intent(IndexActivity.this, SettingActivity.class));
 
                         break;
                     default:
@@ -61,6 +64,7 @@ public class IndexActivity extends Activity {
             }
         });
     }
+
     /**
      * 显示密码弹窗
      */
@@ -194,6 +198,7 @@ public class IndexActivity extends Activity {
 
         dialog.show();
     }
+
     class HomeAdapter extends BaseAdapter {
 
         @Override
