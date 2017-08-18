@@ -188,7 +188,7 @@ public class SplashActivity extends Activity {
                     e.printStackTrace();
                 } catch (JSONException e) {
                     msg.what = CODE_JSON_ERROR;
-                    e.printStackTrace();
+                   e.printStackTrace();
                 } finally {
                     long endTime = System.currentTimeMillis();
                     long timeUsed = endTime - startTime;

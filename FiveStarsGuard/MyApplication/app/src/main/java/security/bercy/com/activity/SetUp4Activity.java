@@ -2,6 +2,7 @@ package security.bercy.com.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,19 +13,34 @@ import security.bercy.com.redstartsecurity.R;
  * 第一个设置向导
  */
 
-public class SetUp4Activity extends Activity {
+public class SetUp4Activity extends BaseSetupActivity {
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_setup4);
+
     }
-    public void next(View view) {
-        startActivity(new Intent(this,LostFindActivity.class));
+
+    @Override
+    public void showBackPage() {
+        startActivity(new Intent(this, SetUp3Activity.class));
         finish();
+        overridePendingTransition(R.anim.trans_back_in, R.anim.trans_back_out);
     }
-    public void back(View view) {
-        startActivity(new Intent(this,SetUp3Activity.class));
+
+    @Override
+    public void showNextPage() {
+        startActivity(new Intent(this, LostFindActivity.class));
+
         finish();
+
+
+        config.edit().putBoolean("configed", true).commit();//表示已经展示过向导 下次进来就不展示了。
+        overridePendingTransition(R.anim.trans_in, R.anim.trans_out);
     }
+
 }
