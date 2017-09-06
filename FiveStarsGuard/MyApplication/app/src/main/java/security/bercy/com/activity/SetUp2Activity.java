@@ -3,11 +3,14 @@ package security.bercy.com.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import security.bercy.com.redstartsecurity.R;
+import security.bercy.com.view.SettingItemView;
 
 /**
  * Created by Bercy on 8/11/17.
@@ -16,12 +19,35 @@ import security.bercy.com.redstartsecurity.R;
 
 public class SetUp2Activity extends BaseSetupActivity {
 
-
+    SettingItemView sivSim;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup2);
 
+        sivSim = (SettingItemView) findViewById(R.id.siv_sim);
+        String sim = config.getString("sim",null);
+        if(!TextUtils.isEmpty(sim)) {
+            sivSim.setChecked(true);
+        }else  {
+            sivSim.setChecked(false);
+        }
+
+        sivSim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sivSim.isChecked()) {
+                    sivSim.setChecked(false);
+                    config.edit().remove("sim").commit();
+                }else {
+                    sivSim.setChecked(true);
+                    TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                    String simSerialNumber = tm.getSimSerialNumber();
+                    System.out.println(simSerialNumber);
+                    config.edit().putString("sim",simSerialNumber).commit();
+                }
+            }
+        });
     }
 
     @Override

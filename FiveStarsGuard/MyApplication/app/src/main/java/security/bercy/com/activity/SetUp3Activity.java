@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import security.bercy.com.redstartsecurity.R;
 
@@ -13,11 +14,16 @@ import security.bercy.com.redstartsecurity.R;
  */
 
 public class SetUp3Activity extends BaseSetupActivity {
+
+    private EditText etPhone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_setup3);
+
+        etPhone = (EditText) findViewById(R.id.et_phone);
     }
 
     @Override
@@ -34,5 +40,23 @@ public class SetUp3Activity extends BaseSetupActivity {
         overridePendingTransition(R.anim.trans_in, R.anim.trans_out);
     }
 
+    public void selectContact(View view) {
+        Intent intent = new Intent(this, ContactActivity.class);
+        //回调onActivityResult方法
+        startActivityForResult(intent, 0);
+    }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==Activity.RESULT_OK) {
+            String phone = data.getStringExtra("phone");
+            etPhone.setText(phone);
+
+        }
+
+
+    }
 }

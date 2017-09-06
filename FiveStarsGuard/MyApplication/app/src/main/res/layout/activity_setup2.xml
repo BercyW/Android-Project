@@ -19,7 +19,7 @@
 
 
     <security.bercy.com.view.SettingItemView
-        android:id="@+id/siv_update"
+        android:id="@+id/siv_sim"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         bercy:desc_off="SIM Card is linked"
